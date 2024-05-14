@@ -21,9 +21,10 @@ struct CounterResponse {
     counter: i64,
 }
 
-#[derive(Queryable, Insertable, AsChangeset)]
+#[derive(Serialize, Queryable, Insertable, AsChangeset)]
 #[diesel(table_name = counters)]
 struct Counter {
+    #[serde(rename = "entryId")]
     entry_id: i64,
     counter: i64,
 }
@@ -49,6 +50,7 @@ async fn main() -> std::io::Result<()> {
             .app_data(web::Data::new(pool.clone()))
             .wrap(Logger::default())
             .route("/counter", web::post().to(increment_counter))
+            .route("/counter", web::get().to(get_all_counters))
     })
     .bind(("127.0.0.1", port))?
     .run()
@@ -94,4 +96,22 @@ fn increment_counter_in_db(conn: &mut PgConnection, entry_id: i64) -> Result<i64
             }
         }
     })
+}
+
+async fn get_all_counters(pool: web::Data<DbPool>) -> impl Responder {
+    let conn = pool.get().expect("Couldn't get db connection from pool");
+    let mut conn = conn;
+
+    let result = web::block(move || get_all_counters_from_db(&mut conn)).await;
+
+    match result {
+        Ok(counters) => HttpResponse::Ok().json(counters.expect("Failed to get counters")),
+        Err(_) => HttpResponse::InternalServerError().finish(),
+    }
+}
+
+fn get_all_counters_from_db(conn: &mut PgConnection) -> Result<Vec<Counter>, diesel::result::Error> {
+    use self::counters::dsl::*;
+
+    counters.load::<Counter>(conn)
 }
