@@ -38,7 +38,14 @@ async fn main() -> std::io::Result<()> {
 
     let database_url = env::var("DATABASE_URL").expect("DATABASE_URL must be set");
     let manager = ConnectionManager::<PgConnection>::new(database_url);
+
+    let max_connections = env::var("MAX_CONNECTIONS")
+        .unwrap_or_else(|_| "3".to_string())
+        .parse::<u32>()
+        .expect("MAX_CONNECTIONS must be a number");
+
     let pool = r2d2::Pool::builder()
+        .max_size(max_connections)
         .build(manager)
         .expect("Failed to create pool.");
 
