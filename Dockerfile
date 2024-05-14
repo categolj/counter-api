@@ -14,7 +14,7 @@ COPY . .
 RUN cargo build --release
 
 # Runtime stage
-FROM debian:buster-slim
+FROM ubuntu:jammy
 
 # Install necessary packages
 RUN apt-get update && apt-get install -y \
