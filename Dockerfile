@@ -32,9 +32,14 @@ COPY --from=builder /usr/src/app/target/release/counter_api .
 COPY --from=builder /usr/src/app/migrations ./migrations
 COPY --from=builder /usr/local/cargo/bin/diesel /usr/local/bin/diesel
 COPY entrypoint.sh .
+RUN chmod +x ./entrypoint.sh
+
+# Set environment variables
+ENV RUST_LOG=info
+ENV PORT=8080
 
 # Expose the port the app runs on
-EXPOSE 7777
+EXPOSE 8080
 
 # Set the entrypoint
 ENTRYPOINT ["./entrypoint.sh"]
