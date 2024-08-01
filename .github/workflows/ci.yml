@@ -1,0 +1,24 @@
+name: CI
+on:
+  push:
+    branches:
+    - main
+    paths:
+    - src/**
+    - pom.xml
+    - .github/workflows/*
+  pull_request:
+    branches:
+    - main
+    paths:
+    - src/**
+    - pom.xml
+    - .github/workflows/*
+jobs:
+  build-image:
+    uses: making/workflows/.github/workflows/build-docker-image.yaml@main
+  save-image-jvm:
+    needs: build-image
+    uses: making/workflows/.github/workflows/save-images.yaml@main
+    with:
+      image_file: image.yaml
