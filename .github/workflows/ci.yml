@@ -17,8 +17,6 @@ on:
 jobs:
   build-image:
     uses: making/workflows/.github/workflows/build-docker-image.yaml@main
-  save-image-jvm:
+  save-image:
     needs: build-image
     uses: making/workflows/.github/workflows/save-images.yaml@main
-    with:
-      image_file: image.yaml
