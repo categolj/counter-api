@@ -1,0 +1,4 @@
+CREATE TABLE IF NOT EXISTS counters (
+    entry_id BIGINT PRIMARY KEY,
+    counter BIGINT NOT NULL
+);
