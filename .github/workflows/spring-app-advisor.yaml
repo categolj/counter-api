@@ -19,7 +19,7 @@ jobs:
     - name: Set up JDK
       uses: actions/setup-java@v4
       with:
-        java-version: '17'
+        java-version: '21'
         distribution: 'temurin'
     - name: Generates Maven Settings
       uses: 's4u/maven-settings-action@v3.1.0'
