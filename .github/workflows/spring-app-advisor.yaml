@@ -24,7 +24,7 @@ jobs:
     - name: Generates Maven Settings
       uses: 's4u/maven-settings-action@v3.1.0'
       with:
-        servers: '[{"id": "tanzu-spring-release", "username":  "${{ secrets.BC_USER }}", "password": "${{ secrets.$BC_PWD }}"}]'
+        servers: '[{"id": "tanzu-spring-release", "username":  "${{ secrets.BC_USER }}", "password": "${{ secrets.BC_PWD }}"}]'
         repositories: '[{"id":"tanzu-spring-release", "name":"Spring Enterprise Supported Releases","url":"https://packages.broadcom.com/artifactory/spring-enterprise","snapshots":{"enabled":false}}]'
         pluginRepositories: '[{"id":"tanzu-spring-release", "name":"Spring Enterprise Supported Releases","url":"https://packages.broadcom.com/artifactory/spring-enterprise","snapshots":{"enabled":false}}]'
     - name: Runs Spring Application Advisor
