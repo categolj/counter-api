@@ -16,7 +16,8 @@ import org.springframework.web.client.RestClient;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @Import(TestcontainersConfiguration.class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
+		properties = { "logging.structured.format.console=", "spring.output.ansi.enabled=always" })
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class CounterApiApplicationTests {
 
