@@ -26,6 +26,14 @@ public class CounterMapper {
 				""").param(entryId).query(Counter.class).single();
 	}
 
+	@Transactional(readOnly = true)
+	public Counter findByEntryId(int entryId) {
+		return this.jdbcClient.sql("""
+				SELECT entry_id, counter FROM counters WHERE entry_id = ?
+				""").param(entryId).query(Counter.class).optional().orElseGet(() -> new Counter(entryId, 0L));
+	}
+
+	@Transactional(readOnly = true)
 	public List<Counter> getAll() {
 		return this.jdbcClient.sql("""
 				SELECT entry_id, counter FROM counters ORDER BY counter DESC

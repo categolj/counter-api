@@ -2,6 +2,7 @@ package am.ik.blog;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +34,24 @@ class CounterApiApplicationTests {
 	}
 
 	@Test
+	@Order(1)
+	void testIncrementReadOnlyFirst() {
+		ResponseEntity<String> response = this.restClient.post()
+			.uri("/counter?readOnly=true")
+			.contentType(MediaType.APPLICATION_JSON)
+			.body("""
+					{"entryId": 100}
+					""")
+			.retrieve()
+			.toEntity(String.class);
+		assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+		assertThat(response.getBody()).isEqualToIgnoringWhitespace("""
+				{"counter":0}
+				""");
+	}
+
+	@Test
+	@Order(2)
 	void testIncrement() {
 		ResponseEntity<String> response = this.restClient.post()
 			.uri("/counter")
@@ -49,6 +68,7 @@ class CounterApiApplicationTests {
 	}
 
 	@Test
+	@Order(3)
 	void testIncrementAgain() {
 		ResponseEntity<String> response = this.restClient.post()
 			.uri("/counter")
@@ -65,6 +85,7 @@ class CounterApiApplicationTests {
 	}
 
 	@Test
+	@Order(4)
 	void testIncrementAnotherEntry() {
 		ResponseEntity<String> response = this.restClient.post()
 			.uri("/counter")
@@ -81,11 +102,29 @@ class CounterApiApplicationTests {
 	}
 
 	@Test
+	@Order(5)
 	void testGetAll() {
 		ResponseEntity<String> response = this.restClient.get().uri("/counter").retrieve().toEntity(String.class);
 		assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
 		assertThat(response.getBody()).isEqualToIgnoringWhitespace("""
 				[{"entryId":100,"counter":2},{"entryId":101,"counter":1}]
+				""");
+	}
+
+	@Test
+	@Order(5)
+	void testIncrementReadOnlyAgain() {
+		ResponseEntity<String> response = this.restClient.post()
+			.uri("/counter?readOnly=true")
+			.contentType(MediaType.APPLICATION_JSON)
+			.body("""
+					{"entryId": 100}
+					""")
+			.retrieve()
+			.toEntity(String.class);
+		assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+		assertThat(response.getBody()).isEqualToIgnoringWhitespace("""
+				{"counter":2}
 				""");
 	}
 
