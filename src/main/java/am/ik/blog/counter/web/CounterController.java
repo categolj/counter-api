@@ -33,7 +33,7 @@ public class CounterController {
 		logger.atInfo()
 			.addKeyValue("entryId", request.entryId())
 			.addKeyValue("counter", counter.counter())
-			.log("Counter incremented");
+			.log("event=incremented entryId={}, counter={}", request.entryId(), counter.counter());
 		return new CounterResponse(counter.counter());
 	}
 
