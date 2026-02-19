@@ -142,7 +142,7 @@
     <dependency>
       <groupId>io.opentelemetry.contrib</groupId>
       <artifactId>opentelemetry-samplers</artifactId>
-      <version>1.53.0-alpha</version>
+      <version>1.54.0-alpha</version>
     </dependency>
   </dependencies>
   <dependencyManagement>
