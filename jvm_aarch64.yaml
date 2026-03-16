@@ -1,8 +1,8 @@
-image: ghcr.io/categolj/counter-api@sha256:2c350f8ac5bb202234008424a9636d2794ac85ea62c319a6d303a36235bde9bf
-git_revision: 59cb053f62b81b39aa080109e962b8417f31ccc2
+image: ghcr.io/categolj/counter-api@sha256:d6809cb933b736d6c64c5462e00fe35b275a1153dcf79365a88ab54eae281ed5
+git_revision: e1927033994e1824c5055d52a94077fdb2b1f97e
 deployment:
   image:
     repository: ghcr.io/categolj/counter-api
-    digest: sha256:2c350f8ac5bb202234008424a9636d2794ac85ea62c319a6d303a36235bde9bf
+    digest: sha256:d6809cb933b736d6c64c5462e00fe35b275a1153dcf79365a88ab54eae281ed5
   podLabels:
-    github.com/revision: 59cb053f62b81b39aa080109e962b8417f31ccc2
+    github.com/revision: e1927033994e1824c5055d52a94077fdb2b1f97e
